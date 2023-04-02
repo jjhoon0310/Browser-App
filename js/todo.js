@@ -1,62 +1,74 @@
-const todoForm = document.querySelector("#todo-form");
-const todoInput = document.querySelector("#todo-form input");
-const todoList = document.querySelector("#todo-list");
+const form = document.querySelector(".js-to-do"),
+    input = document.querySelector(".js-add-to-do"),
+    list = document.querySelector(".js-list");
 
-let todos = [];
+let toDos = [];
 
-const TODOS_KEY = "todos";
+function persistToDos() {
+    const stringToDo = JSON.stringify(toDos);
+    localStorage.setItem("toDos", stringToDo);
+}
 
-function addingTodo(event) {
-    event.preventDefault();
-    const newTodo = todoInput.value;
-    todoInput.value = "";
-
-    const newTodoObj = {
-        text: newTodo,
-        id: Date.now(),
+function saveToDo(text) {
+    const toDoObject = {
+        id: toDos.length + 1,
+        value: text,
     };
-    todos.push(newTodoObj);
-    todoSubmit(newTodoObj);
-    saveTodo();
+    toDos.push(toDoObject);
+    persistToDos();
 }
 
-function todoSubmit(newTodo) {
-    const li = document.createElement("li");
-    const span = document.createElement("span");
-    const button = document.createElement("button");
-
-    li.id = newTodo.id;
-    span.innerText = newTodo.text;
-    button.innerText = "❌";
-    button.addEventListener("click", deleteTodo);
-    li.appendChild(span);
-    li.appendChild(button);
-    todoList.appendChild(li);
+function handleDelete(event) {
+    const target = event.target;
+    const li = target.parentElement;
+    const ul = li.parentElement;
+    const toDoId = li.id;
+    ul.removeChild(li);
+    toDos = toDos.filter(function (toDo) {
+        return toDo.id !== parseInt(toDoId);
+    });
+    persistToDos();
 }
 
-function saveTodo() {
-    localStorage.setItem(TODOS_KEY, JSON.stringify(todos));
+function addToDo(text) {
+    const toDo = document.createElement("li");
+    const label = document.createElement("label");
+    const deleteBtn = document.createElement("span");
+    toDo.id = toDos.length + 1;
+    toDo.style.padding = "3px";
+    label.innerHTML = text;
+    deleteBtn.innerHTML = "❌";
+    deleteBtn.style.position = "fixed";
+    deleteBtn.style.right = "50px";
+    deleteBtn.addEventListener("click", handleDelete);
+    toDo.appendChild(label);
+    toDo.appendChild(deleteBtn);
+    list.appendChild(toDo);
+    saveToDo(text);
 }
 
-function deleteTodo(event) {
-    const li = event.target.parentElement;
-    li.remove();
-    todos = todos.filter((todo) => todo.id !== parseInt(li.id));
-    // Arrow funtions: Arrow means 'return'
-    // let sum = (a, b) => a + b;
-
-    // let sum = function(a, b) {
-    // return a + b;
-    //} ;
-    saveTodo();
+function onSubmit(event) {
+    event.preventDefault();
+    const value = input.value;
+    input.value = "";
+    addToDo(value);
 }
 
-todoForm.addEventListener("submit", addingTodo);
-
-const savedTodos = localStorage.getItem(TODOS_KEY);
-
-if (saveTodo !== null) {
-    const parsedTodos = JSON.parse(savedTodos);
-    todos = parsedTodos;
-    parsedTodos.forEach(todoSubmit);
+function loadToDos() {
+    const loadedToDos = localStorage.getItem("toDos");
+    if (loadedToDos !== null) {
+        const parsedToDos = JSON.parse(loadedToDos);
+        parsedToDos.forEach(function (toDo) {
+            addToDo(toDo.value);
+        });
+    }
+    return;
 }
+
+function init() {
+    loadToDos();
+}
+
+form.addEventListener("submit", onSubmit);
+
+init();

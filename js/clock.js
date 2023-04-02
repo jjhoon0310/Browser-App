@@ -30,7 +30,7 @@ function getDate() {
     } else {
         day = `${day}th`;
     }
-    today.innerText = `${monthName}, ${day} ${year}`;
+    today.innerText = `${monthName} ${day}, ${year}`;
 }
 
 getDate();

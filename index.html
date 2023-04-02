@@ -1,40 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"
+        ></script>
+
+        <link rel="stylesheet" href="style.css" id="link" />
         <title>New Tab</title>
     </head>
     <body>
-        <h2 id="date"></h2>
-        <h2 id="clock">00:00:00</h2>
         <form class="hidden" id="login-form">
             <input
                 required
                 maxlength="15"
                 type="text"
-                placeholder="What is your name?"
+                placeholder="Your Username"
             />
-            <input type="submit" value="login" />
+            <input type="submit" value="Login" />
         </form>
         <h1 class="hidden" id="logged-in"></h1>
 
-        <form id="todo-form">
-            <input type="text" placeholder="What's your plan?" />
-        </form>
-        <ul id="todo-list"></ul>
+        <div id="weather">
+            <span>Loading Weather</span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div id="today">
+            <h2 id="clock">00:00:00</h2>
+            <h2 id="date"></h2>
+        </div>
 
         <div id="quote">
             <span></span>
             <span></span>
         </div>
 
-        <div id="weather">
-            <span></span>
-            <span></span>
-        </div>
+        <form class="js-to-do">
+            <input
+                class="js-add-to-do"
+                placeholder="Write your Plan"
+                type="text"
+            />
+        </form>
+        <ul class="js-list list"></ul>
 
         <script src="js/login.js"></script>
         <script src="js/clock.js"></script>
