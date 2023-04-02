@@ -15,7 +15,7 @@ function onLoginSubmit(event) {
 }
 
 function showLoggedin(username) {
-    loggedIn.innerText = "Hello " + username;
+    loggedIn.innerText = "Welcome " + username;
     loggedIn.classList.remove(HIDDEN_CLASSNAME);
 }
 

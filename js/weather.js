@@ -7,10 +7,13 @@ function geoSuccess(position) {
     fetch(url)
         .then((response) => response.json())
         .then((data) => {
-            const weather = document.querySelector("#weather span:first-child");
-            const city = document.querySelector("#weather span:last-child");
-            weather.innerText = data.name;
-            city.innerText = `${data.weather[0].main}, ${data.main.temp}`;
+            const weatherSection = document.querySelector("#weather");
+            const weather = weatherSection.getElementsByTagName("span")[0];
+            const city = weatherSection.getElementsByTagName("span")[1];
+            const temp = weatherSection.getElementsByTagName("span")[2];
+            weather.innerText = `🌏 ${data.name}\u00A0\u00A0\u00A0\u00A0`;
+            city.innerText = `⛅️ ${data.weather[0].main}\u00A0\u00A0\u00A0\u00A0`;
+            temp.innerText = `🌡️ ${data.main.temp}°C`;
         });
 }
 
